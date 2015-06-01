@@ -62,3 +62,10 @@ CFLAGS_DEFINE= \
 CFLAGS=-g $(ARCH_FLAGS)\
 	${CFLAGS_INCLUDE} ${CFLAGS_DEFINE} \
 	${CFLAGS_WARNING} -MMD -MP
+
+CC_VER_SUPPORTED = 4.8.4
+CC_VER_FOUND = $(shell $(CC) -dumpversion)
+
+ifeq (,$(findstring $(CC_VER_SUPPORTED), $(CC_VER_FOUND)))
+$(error Unsupported version of $(CC), found: $(CC_VER_FOUND) instead of one in: $(CC_VER_SUPPORTED))
+endif
