@@ -4,10 +4,11 @@ compiler: gcc
 
 before_install:
   - sudo apt-get install build-essential
-  - sudo add-apt-repository --yes ppa:terry.guo/gcc-arm-embedded
-  - sudo apt-get update
-  - sudo apt-get install gcc-arm-none-eabi
+  - wget https://launchpadlibrarian.net/186124160/gcc-arm-none-eabi-4_8-2014q3-20140805-linux.tar.bz2
+  - tar -jxf gcc-arm-none-eabi-4_8-2014q3-20140805-linux.tar.bz2
+  - PATH=$PATH:$(pwd)/gcc-arm-none-eabi-4_8-2014q3/bin/
+  - export PATH
 
 script:
-  - make 
+  - make
   - arm-none-eabi-size firmware.elf
