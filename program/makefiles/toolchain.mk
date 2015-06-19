@@ -48,7 +48,8 @@ CFLAGS_INCLUDE=-I$(WORKSPACE_DIR)/ \
 	-I$(ST)/inc \
 	-I$(MAVLINK) \
 	-I$(MAVLINK_LIB) \
-	-I$(MAVLINK_LIB)/common
+	-I$(MAVLINK_LIB)/common \
+	-I$(MATH)
 
 CFLAGS_DEFINE= \
         -D USE_STDPERIPH_DRIVER \

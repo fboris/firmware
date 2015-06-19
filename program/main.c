@@ -19,6 +19,7 @@
 #include "communication.h"
 #include "system_time.h"
 #include "lea6h_ubx.h"
+#include "algebra.h"
 extern uint8_t estimator_trigger_flag;
 
 /* FreeRTOS */

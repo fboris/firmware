@@ -12,6 +12,7 @@ export CONTROLLER =$(abspath $(WORKSPACE_DIR)/controller)
 export MAVLINK=$(abspath $(WORKSPACE_DIR)/mavlink)
 export FREERTOS=$(abspath $(WORKSPACE_DIR)/lib/FreeRTOS)
 export MAVLINK_LIB=$(abspath $(WORKSPACE_DIR)/lib/mavlink)
+export MATH=$(abspath $(WORKSPACE_DIR)/math)
 export TEST=$(abspath $(WORKSPACE_DIR)/test)
 
 #
