@@ -49,14 +49,14 @@ static inline float vect3_dot(const vect3 *a, const vect3 *b)
 /*
 the length of this vector
 */
-static inline float vect3_length(const vect3 *a)
+static inline float vect3_norm2(const vect3 *a)
 {
 	return sqrtf(a->x * a->x + a->y * a->y + a->z * a->z);
 }
 /*
 normalize 
 */
-static inline vect3 vect3_normalize(const vect3 *a)
+static inline vect3 vect3_normalized(const vect3 *a)
 {
 	float u = 1.0f/sqrtf(a->x * a->x + a->y * a->y + a->z * a->z);
 	vect3 v = {a->x * u, a->y * u, a->z * u};
