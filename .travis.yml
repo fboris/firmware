@@ -4,11 +4,24 @@ compiler: gcc
 
 before_install:
   - sudo apt-get install build-essential
+#this part is retrieved from PX4
+before_script:
+  - export CC="gcc-4.8"
+# General toolchain dependencies
+  - pushd .
+  - cd ~
   - wget https://launchpadlibrarian.net/186124160/gcc-arm-none-eabi-4_8-2014q3-20140805-linux.tar.bz2
   - tar -jxf gcc-arm-none-eabi-4_8-2014q3-20140805-linux.tar.bz2
-  - export PATH=$PATH:$(pwd)/gcc-arm-none-eabi-4_8-2014q3/bin
-  - echo $PATH
-  - ls
+  - exportline="export PATH=$HOME/gcc-arm-none-eabi-4_8-2014q3/bin:\$PATH"
+  - if grep -Fxq "$exportline" ~/.profile; then echo nothing to do ; else echo $exportline >> ~/.profile; fi
+  - . ~/.profile
+  - popd
+# setup ccache
+  - mkdir -p ~/bin
+  - ln -s /usr/bin/ccache ~/bin/arm-none-eabi-gcc
+  - ln -s /usr/bin/ccache ~/bin/gcc-4.8
+  - export PATH=~/bin:$PATH
+
 script:
   - make
   - arm-none-eabi-size firmware.elf
