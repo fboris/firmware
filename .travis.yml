@@ -9,6 +9,7 @@ before_install:
 before_script:
   - wget https://launchpadlibrarian.net/186124160/gcc-arm-none-eabi-4_8-2014q3-20140805-linux.tar.bz2
   - tar -jxf gcc-arm-none-eabi-4_8-2014q3-20140805-linux.tar.bz2
+  - ls
   - export PATH=$PATH:$PWD/gcc-arm-none-eabi-4_8-2014q3/bin
 script:
   - arm-none-eabi-gcc --version
