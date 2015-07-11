@@ -8,7 +8,7 @@ before_install:
 install:
   - sudo apt-get install build-essential
   - tar -xf gcc-arm-none-eabi-4_8-2014q3-20140805-linux.tar.bz2
-  - ls
+  - ls ./gcc-arm-none-eabi-4_8-2014q3/bin
   - export PATH=$PATH:$PWD/gcc-arm-none-eabi-4_8-2014q3/bin
 before_script:
   - arm-none-eabi-gcc --version
