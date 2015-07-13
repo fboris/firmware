@@ -1,1 +1,0 @@
-TARGET_BOARD='QCopter v2.0'
