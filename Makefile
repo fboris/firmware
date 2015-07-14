@@ -1,5 +1,5 @@
 export WORKSPACE_DIR=./program
-
+export CONFIG_DIR=./configuration
 #Primary firmware target
 export FIRMWARE=./firmware
 
@@ -10,7 +10,7 @@ include $(WORKSPACE_DIR)/makefiles/workspace.mk
 
 #
 #object file dir
-include $(WORKSPACE_DIR)/board/vertigo-v2/board_config.mk
+include $(CONFIG_DIR)/board/vertigo-v2/board_config.mk
 
 OBJS = $(sort $(patsubst %c, %o, $(SRCS) ))
 

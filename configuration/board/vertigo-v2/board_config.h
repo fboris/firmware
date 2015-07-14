@@ -39,7 +39,7 @@ void i2c_init(void);
 void i2c_start(I2C_TypeDef *i2c);
 void i2c_send(I2C_TypeDef *port, uint8_t i2c);
 void i2c_read_ack(I2C_TypeDef *i2c);
-void i2c_read_nack(I2C_TypeDef *i2c);
+void i2c_read_nack(I2C_TypeDef *i2c);d
 void i2c_stop(I2C_TypeDef *i2c);
 
 #endif
