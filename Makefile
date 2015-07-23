@@ -9,17 +9,36 @@ include $(WORKSPACE_DIR)/makefiles/toolchain.mk
 include $(WORKSPACE_DIR)/makefiles/workspace.mk
 
 #
-#object file dir
-include $(CONFIG_DIR)/board/vertigo-v2/board_config.mk
+#some config variable, leave this to user
+BOARD_NAME?=vertigo
+BOARD_VERSION?=2.1
+
+#apply configurations
+ifeq ($(BOARD_NAME),vertigo)
+  ifeq ($(BOARD_VERSION),2.1)
+    include $(CONFIG_DIR)/board/$(BOARD_NAME)/$(BOARD_VERSION)/board_config.mk
+  else ifeq ($(BOARD_VERSION),2.2)
+    include $(CONFIG_DIR)/board/$(BOARD_NAME)/$(BOARD_VERSION)/board_config.mk
+  else
+  $(error Not a valid version)
+  endif
+
+else
+  $(error Not a valid name of board)
+endif
+
 
 OBJS = $(sort $(patsubst %c, %o, $(SRCS) ))
-
 
 
 #
 #make target
 all: $(FIRMWARE).bin $(FIRMWARE).elf
 
+	@echo "________________________________________________________________"
+	@echo "Build Summary:"
+	@echo "BOARD_NAME=$(BOARD_NAME) VERSION=$(BOARD_VERSION)"
+	@echo "________________________________________________________________"
 include $(WORKSPACE_DIR)/makefiles/rules.mk
 
 clean:
