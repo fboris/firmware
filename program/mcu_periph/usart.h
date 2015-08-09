@@ -19,4 +19,5 @@ void USART3_IRQHandler(void);
 void uart8_puts(uint8_t *ptr);
 void DMA1_Stream3_IRQHandler(void);
 void usart3_dma_send(uint8_t *, uint16_t );
+void usart3_dma_rx_setup(void);
 #endif

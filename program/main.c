@@ -53,11 +53,46 @@ void vApplicationMallocFailedHook(void)
 {
 	while(1);
 }
+void rx_dma_test(void)
+{
+	bool is_first = false;
+	uint8_t previous_num;
+	int32_t total_data_count = 0;
+	int32_t lost_data_count = 0;
+	char msg_buffer[256];
+	while(1) {
+		uint8_t ch = (uint8_t)usart3_read();
+		total_data_count++;
 
+		if (is_first) {
+
+
+			is_first = false;
+		} else {
+
+			previous_num++;
+			if ( previous_num != ch ) {
+
+				lost_data_count ++;
+				sprintf(msg_buffer, " [%u] is not matched with [%u] \r\n", previous_num, ch);
+				usart2_dma_send((uint8_t*)msg_buffer);
+			}
+		}
+		previous_num = ch;
+
+		if ( (total_data_count%1000) == 0) {
+			sprintf(msg_buffer, "got %ld bytes, lost %ld byte \r\n"
+				,total_data_count
+				,lost_data_count);
+			//usart3_dma_send((uint8_t*)msg_buffer, strlen(msg_buffer));
+			usart2_dma_send((uint8_t*)msg_buffer);
+		}
+	}
+}
 int main(void)
 {
 	vSemaphoreCreateBinary(serial_tx_wait_sem);
-	serial_rx_queue = xQueueCreate(5, sizeof(serial_msg));
+	serial_rx_queue = xQueueCreate(256, sizeof(serial_msg));
 	gps_serial_queue = xQueueCreate(5, sizeof(serial_msg));
 	vSemaphoreCreateBinary(flight_control_sem);
 	vSemaphoreCreateBinary(usart3_dma_send_sem);
@@ -77,54 +112,18 @@ int main(void)
 
 	CAN2_Config();
 	CAN2_NVIC_Config();
-
+	usart3_dma_rx_setup();
 	/* Register the FreeRTOS task */
 	/* Flight control task */
 	xTaskCreate(
-		(pdTASK_CODE)flight_control_task,
-		(signed portCHAR*)"flight control task",
+		(pdTASK_CODE)rx_dma_test,
+		(signed portCHAR*)"",
 		4096,
 		NULL,
 		tskIDLE_PRIORITY + 9,
 		NULL
 	);
 
-	/* Navigation task */
-	xTaskCreate(
-		(pdTASK_CODE)navigation_task,
-		(signed portCHAR*)"navigation task",
-		512,
-		NULL,
-		tskIDLE_PRIORITY + 7,
-		NULL
-	);
-
-	/* Ground station communication task */	
-	xTaskCreate(
-		(pdTASK_CODE)ground_station_task,
-		(signed portCHAR *)"ground station send task",
-		2048,
-		NULL,
-		tskIDLE_PRIORITY + 5,
-		NULL
-	);
-
-	xTaskCreate(
-		(pdTASK_CODE)mavlink_receiver_task,
-		(signed portCHAR *) "ground station receive task",
-		4096,
-		NULL,
-		tskIDLE_PRIORITY + 7, NULL
-	);
-
-	xTaskCreate(
-		(pdTASK_CODE)gps_receive_task,
-		(signed portCHAR *) "gps receive task",
-		2048,
-		NULL,
-		tskIDLE_PRIORITY + 8, NULL
-
-	);
 	vTaskStartScheduler();
 
 	return 0;
