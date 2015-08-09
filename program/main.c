@@ -55,7 +55,7 @@ void vApplicationMallocFailedHook(void)
 }
 void rx_dma_test(void)
 {
-	bool is_first = false;
+	bool is_first = true;
 	uint8_t previous_num;
 	int32_t total_data_count = 0;
 	int32_t lost_data_count = 0;
